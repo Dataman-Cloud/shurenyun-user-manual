@@ -17,7 +17,7 @@
   * [日志管理](function/log.md)
 * [快速实践](practice/README.md)
   * [三步发布2048小游戏](practice/2048.md)
-  * 快速搭建LAMP架构集群
+  
 * [视频教程](video/README.md)
 * [Docker简明教程](docker/README.md)
   * [Docker简介](docker/1/Docker-info.md)
