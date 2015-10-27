@@ -36,7 +36,20 @@
 
 注：当作为master的主机出现异常时，新添加其他主机进入集群，需要保证新加入要做master的这台为同样的IP。  
 
-![](Add a new host.png)        
+![](Add a new host.png)
+
+备注：在安装Agent之前请确认主机是否满足以下条件：
+
+* 每台运行docker的主机到数人云之间的网络必须能够连通
+* 安装集群主机每台相互都可以连通
+* 安装agent前，主机名必须可以解析，如果没有设置请到/etc/hosts 中添加
+* 安装docker版本必须在1.7.1以上(但强烈建议1.8.2)，并开启docker运行
+* 目前支持64位Linux系统,已测试操作系统：CentOS 7+、Ubuntu 14.04
+* 推荐Ubuntu使用的aufs 或 Centos使用devicemapper作为docker文件系统。(生产环境使用devicemapper请参考用户手册)
+* 现阶不建议使用Docker非挂盘模式做数据持久化服务
+* 安装 nc 命令使用程序
+* 关闭selinux
+* 开启iptables-nat       
 
 ### 2.2 删除主机   
 即将主机从该集群中删除，在集群详情页选择想要删除的主机，点击删除主机按钮并确认。
