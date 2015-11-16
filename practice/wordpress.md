@@ -1,10 +1,10 @@
-# 用数人云三步发布2048游戏应用
-## 目录
-### [第一步建立集群](#step1)
-### [第二步发布应用](#step2)
-### [第三步服务发现](#step3)
+## 搭建 Wordpress 个人博客
+### 目录
+#### [第一步建立集群](#step1)
+#### [第二步发布应用](#step2)
+#### [第三步服务发现](#step3)
 
-<h2 id="step1">第一步建立集群（应用发布环境）</h2>
+<h3 id="step1">1 第一步建立集群（应用发布环境）</h2>
 
 ### 1.1 注册&登录数人云
 
@@ -41,7 +41,12 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 ![添加主机](add-host.png)
 
-1.4.2 填写主机名称，并在主机上根据"连接主机"的提示进行操作。
+1.4.2 填写主机名称，并在主机上根据"连接主机"的提示进行操作。   
+
+1.4.3 选择主机类型：
+  * 第一台主机为 master 节点，类型为计算节点；
+  * 第二台主机选择计算节点和网关节点，用于部署对外的计算服务，该节点需要配置外网 IP 和域名；
+  * 第三台主机选择代理节点和数据节点，用于部署有状态的应用，如 mysql、redis 等。
 
 ![添加主机](add-host2.png)
 
@@ -63,15 +68,42 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 ![添加主机](add-host3.png)
 
-<h2 id="step2">第二步发布应用</h2>
+<h3 id="step2">2 第二步发布应用</h2>  
+部署 Wordpress 应用，首先需要部署 mysql 数据库，然后部署 Wordpress 服务；我们先从 mysql 开始。  
 
-### 2.1 找到或制作2048游戏镜像
+### 2.1 新建mysql应用
 
-我们选择Docker官方镜像库的2048游戏镜像，镜像地址是：
+2.1.1 选择"应用管理"中的"创建应用"，如图所示：
 
-hub.docker.com/alexwhen/docker-2048
+![添加应用](add-app.png)
 
-### 2.2 新建2048游戏应用
+2.1.2 创建应用
+
+填写应用名称:mysql-demo  
+
+添加应用镜像地址：mysql  
+
+填写镜像版本：latest   
+
+选择应用类型：有状态应用  
+
+主机选择：从数据节点中选择一个；有状态应用不能迁移，只能固定在被选择的节点上；另外，有状态应用一次只能部署一个容器；  
+
+容器目录：容器内的挂载目录  
+
+主机目录：主机上的挂载目录  
+
+选择容器规格  
+
+填写暴露端口：3306，类型：对内TCP  
+
+填写环境变量参数：Key:MYSQL_ROOT_PASSWORD  Value:your-password  
+
+如图所示：
+
+![添加应用](add-app2.png)  
+
+### 2.2 新建 wordpress 应用  
 
 2.2.1 选择"应用管理"中的"创建应用"，如图所示：
 
@@ -79,26 +111,40 @@ hub.docker.com/alexwhen/docker-2048
 
 2.2.2 创建应用
 
-填写应用名称:2048-demo
+填写应用名称:wordpress-demo  
 
-添加应用镜像地址：alexwhen/docker-2048
+添加应用镜像地址：wordpress  
 
-选择容器规格和集群
+填写镜像版本：latest   
 
-填写镜像版本，一般为：latest
+选择应用类型：有状态应用  
+
+选择容器规格  
+
+容器个数：2
+
+填写暴露端口：80，类型：对外标准 HTTP  
+注：由于 Wordpress 是 HTTP 应用，并需要对外服务发现，因此选择对外标准 HTTP，会对外暴露 80 端口；同时，需要填写域名：your-site；  
+
+填写环境变量参数：  
+Key:WORDPRESS_DB_HOST  Value:10.3.10.63:3306  
+Key:WORDPRESS_DB_USER  Value:root
+Key:WORDPRESS_DB_PASSWORD  Value:your-password
 
 如图所示：
 
-![添加应用](add-app2.png)
+![添加应用](add-app2.png)  
 
 ### 2.3 确认应用正常运行
 
 回到应有管理中，即可看到应用已正常运行。
 
-![添加应用](add-app3.png)
+![添加应用](add-app3.png)  
+
+打开浏览器，访问地址：http://your-site，看到如下页面，则说明wordpress 应用已经成功运行。
 
 
-<h2 id="step3">第三步服务发现，let's play !</h2>
+<h3 id="step3">3 第三步服务发现，let's play !</h2>
 
 ### 3.1 环境说明
 - 注意：请将Bamboo安装到Master主机中
@@ -134,7 +180,7 @@ hub.docker.com/alexwhen/docker-2048
     sh bamboo.sh
 
 
-####参数说明：
+##### 参数说明：
 * MARATHON_ENDPOINT ：marathon地址端口
 * BAMBOO_ENDPOINT ：bamboo地址端口
 * BAMBOO_ZK_HOST ：zookeeper端口
