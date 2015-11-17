@@ -2,9 +2,8 @@
 
 * [数人云介绍](overview/README.md)  
 * [入门教程](get-started/README.md)  
-  * [架构简介](get-started/architecture.md)  
   * [账号注册](get-started/register.md)  
-  * [第一个应用](get-started/2048.md)  
+  * [第一个应用-2048](get-started/2048.md)  
   * [视频教程](get-started/video.md)  
   * [词汇表](get-started/vocabulary.md)  
 * [产品功能](function/README.md)
@@ -20,6 +19,5 @@
   * [日志管理](function/log.md)
 * [快速实践](practice/README.md)
   * [搭建 Wordpress 个人博客](practice/wordpress.md)
-  * [搭建 LNMP 架构集群](prectice/lnmp.md)
 * [常见问题](faq/README.md)
 * [联系我们](contactus/README.md)

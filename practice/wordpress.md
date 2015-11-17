@@ -21,13 +21,10 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 ### 1.3 建立集群
 
-1.3.1 登录账户后，在集群管理中，点击创建群组。（如图所示）
+1.3.1 登录账户后，在集群管理中，点击创建群组。  
 
-![创建集群1](create-cluster.png)
+1.3.2 填写集群名称（sales_demo），选择 3 Master集群，点击完成。
 
-1.3.2 填写集群名称（sales-2048-demo），选择 1 Master集群，点击完成。
-
-备注：本例是demo，所以选择 1 Master 集群即可。
 
 ![创建集群2](create-cluster2.png)
 
@@ -48,7 +45,9 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
   * 前三台主机为 Master 节点，类型为计算节点；
   * 第四台主机选择计算节点，用于部署无状态应用；
   * 第五台主机选择计算节点和外部网关，用于部署对外的计算服务，该节点需要配置外网 IP 和域名；
-  * 第六台主机选择代理节点和数据节点，用于部署有状态的应用，如 mysql、redis 等。
+  * 第六台主机选择代理节点和数据节点，用于部署有状态的应用，如 mysql、redis 等。  
+  
+注：实现本案例，所需最小规模集群为2台主机，一台为 Master 节点，另一台包括所有节点类型。为便于区分各种主机类型，分别在不同主机上部署了不同的节点类型。  
 
 ![添加主机](add-host2.png)
 
@@ -75,15 +74,15 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 ### 2.1 新建mysql应用
 
-2.1.1 选择"应用管理"中的"新建应用"，如图所示：
+2.1.1 选择"应用管理"中的"新建应用"，如图所示：  
 
-![新建应用](add-mysql.png)
+![新建应用](add-mysql.png)  
 
-2.1.2 新建应用
+2.1.2 新建应用  
 
 填写应用名称：mysql  
 
-选择集群：sales-demo  
+选择集群：your-cluster  
 
 添加应用镜像地址：mysql  
 
@@ -119,7 +118,7 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 填写应用名称:wordpress  
 
-选择集群：sales-demo  
+选择集群：your-cluster  
 
 添加应用镜像地址：wordpress  
 
@@ -135,17 +134,17 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 高级设置：  
 
-填写应用地址：  端口：80，类型：对外标准 HTTP，域名：yma.dataman-inc.com  
-注：由于 Wordpress 是 HTTP 应用，并需要对外服务发现，因此选择对外标准 HTTP，会对外暴露 80 端口；同时，需要填写域名：your-site；  
+填写应用地址：  端口：80，类型：对外标准 HTTP，域名：your-website  
+注：由于 Wordpress 是 HTTP 应用，并需要对外服务发现，因此选择对外标准 HTTP，会对外暴露 80 端口；同时，需要填写域名：your-website；  
 
 填写环境变量参数：  
 ```
 Key:WORDPRESS_DB_HOST  Value:10.3.10.63:3306  
 Key:WORDPRESS_DB_USER  Value:root
 Key:WORDPRESS_DB_PASSWORD  Value:your-password
-```
+```  
 注1：应用地址选择对外标准 HTTP 时，需要配置相应的域名或外网 IP 到对外网关节点，以确保可以通过公网进行访问；  
-注2：配置 mysql 地址的环境变量时，mysql 地址应该为内部代理的 IP 和 mysql 的映射 IP，根据 mysql 配置，该地址为10.3.10.63:3306。
+注2：配置 mysql 地址的环境变量时，mysql 地址应该为内部代理的 IP 和 mysql 的映射 IP，根据上述 mysql 配置，该地址为10.3.10.63:3306。
 
 ![添加应用](add-wordpress2.png)  
 
@@ -159,4 +158,4 @@ Key:WORDPRESS_DB_PASSWORD  Value:your-password
 
 ![添加应用](wordpress.png)
 
-现在你已经拥有了一个小型的 wordpress 站点，并且将 web server 横向扩展为 2 个实例！
+现在你已经拥有了一个小型的 wordpress 站点，并且为 web server 创建了 2 个实例，实现了最基础的横向扩展和负载均衡！
