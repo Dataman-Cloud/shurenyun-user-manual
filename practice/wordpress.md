@@ -2,7 +2,6 @@
 ### 目录
 #### [第一步建立集群](#step1)
 #### [第二步发布应用](#step2)
-#### [第三步服务发现](#step3)
 
 <h3 id="step1">1 第一步建立集群（应用发布环境）</h2>
 
@@ -158,4 +157,4 @@ Key:WORDPRESS_DB_PASSWORD  Value:your-password
 
 ![添加应用](wordpress.png)
 
-现在你已经拥有了一个小型的 wordpress 站点，并且为 web server 创建了 2 个实例，实现了最基础的横向扩展和负载均衡！
+恭喜，现在你已经拥有了一个小型的 wordpress 站点，并且为 web server 创建了 2 个实例，实现了最基础的横向扩展和负载均衡！
