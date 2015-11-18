@@ -44,13 +44,13 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
   * 前三台主机为 Master 节点，类型为计算节点；
   * 第四台主机选择计算节点，用于部署无状态应用；
   * 第五台主机选择计算节点和外部网关，用于部署对外的计算服务，该节点需要配置外网 IP 和域名；
-  * 第六台主机选择代理节点和数据节点，用于部署有状态的应用，如 mysql、redis 等。  
+  * 第六台主机选择代理节点和数据节点，用于部署有状态的应用，如 Mysql、Redis 等。  
   
 注：实现本案例，所需最小规模集群为2台主机，一台为 Master 节点，另一台包括所有节点类型。为便于区分各种主机类型，分别在不同主机上部署了不同的节点类型。  
 
 ![添加主机](add-host2.png)
 
-（1）安装Docker
+（1）安装 Docker
 
 	curl -sSL https://get.docker.com/ | sh
 
@@ -71,7 +71,7 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 <h3 id="step2">2 第二步发布应用</h2>  
 部署 Wordpress 应用，首先需要部署 mysql 数据库，然后部署 Wordpress 服务；我们先从 mysql 开始。  
 
-### 2.1 新建mysql应用
+### 2.1 新建 Mysql 应用
 
 2.1.1 选择"应用管理"中的"新建应用"，如图所示：  
 
@@ -111,9 +111,9 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 ![新建应用](add-mysql3.png)  
 填写完成后，点击创建。  
 
-### 2.2 新建 wordpress 应用  
+### 2.2 新建 Wordpress 应用  
 
-点击新建应用，新建 wordpress 应用：  
+点击新建应用，新建 Wordpress 应用：  
 
 填写应用名称:wordpress  
 
@@ -153,8 +153,8 @@ Key:WORDPRESS_DB_PASSWORD  Value:your-password
 
 ![添加应用](app-list.png)  
 
-打开浏览器，访问地址：http://yma.dataman-inc.com（替换成你的域名或者网关 IP），看到如下页面，则说明wordpress 应用已经成功运行。  
+打开浏览器，访问地址：http://yma.dataman-inc.com（替换成你的域名或者网关 IP），看到如下页面，则说明 Wordpress 应用已经成功运行。  
 
 ![添加应用](wordpress.png)
 
-恭喜，现在你已经拥有了一个小型的 wordpress 站点，并且为 web server 创建了 2 个实例，实现了最基础的横向扩展和负载均衡！
+恭喜，现在你已经拥有了一个小型的 Wordpress 站点，并且为 web server 创建了 2 个实例，实现了最基础的横向扩展和负载均衡！
