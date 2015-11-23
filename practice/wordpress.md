@@ -9,10 +9,6 @@
 
 访问 [www.shurenyun.com](http://www.shurenyun.com) 注册并登录系统。
 
-备注：数人云目前是内测期，如您需要邀请码，请填写免费试用表单申请。  
-
-[免费试用>>](http://form.mikecrm.com/f.php?t=CgBTTT)
-
 ### 1.2 准备主机
 
 需要准备至少一台主机，主机可以是可以连接互联网的私有主机，也可以是阿里云、Ucloud、
