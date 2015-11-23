@@ -143,66 +143,37 @@ box 中的镜像文件被放到了：`/Users/mymac/.vagrant.d/boxes/`，如果�
 
 >密码: vagrant
 
-#### 1.3.7 系统信息
-进入系统之后我们可以看一下系统的基础信息：
-
-	vagrant@lucid64:/vagrant$ df -h
-	Filesystem            Size  Used Avail Use% Mounted on
-	/dev/mapper/lucid64-root
-	                       78G  945M   73G   2% /
-	none                  179M  176K  179M   1% /dev
-	none                  184M     0  184M   0% /dev/shm
-	none                  184M   64K  184M   1% /var/run
-	none                  184M     0  184M   0% /var/lock
-	none                  184M     0  184M   0% /lib/init/rw
-	none                   78G  945M   73G   2% /var/lib/ureadahead/debugfs
-	/dev/sda1             228M   17M  199M   8% /boot
-	/vagrant              298G   76G  222G  26% /vagrant
-
-
-`/vagrant` 这个目录是自动映射的，被映射到 `/Users/mymac/vagrant`，这样就方便我们以后在开发机中进行开发，在虚拟机中进行运行效果测试了。  
-
-#### 1.3.9 Vagrantfile配置文件详解
-在我们的开发目录下有一个文件 `Vagrantfile`，里面包含有大量的配置信息，主要包括三个方面的配置，虚拟机的配置、SSH 配置、Vagrant 的一些基础配置。Vagrant 是使用 Ruby 开发的，所以它的配置语法也是 Ruby 的，但是我们没有学过 Ruby 的人还是可以跟着它的注释知道怎么配置一些基本项的配置。
+#### 1.3.8 Vagrantfile配置
+在我们的开发目录下有一个文件 `Vagrantfile`，里面包含有大量的配置信息，主要包括三个方面的配置，虚拟机的配置、SSH 配置、Vagrant 的一些基础配置。Vagrant 是使用 Ruby 开发的，所以它的配置语法也是 Ruby 的。这里需要对虚拟机的网络进行配置。
 
 2. 网络设置
 
-	Vagrant 有两种方式来进行网络连接，一种是 host-only(主机模式)，意思是主机和虚拟机之间的网络互访，而不是虚拟机访问 Internet 的技术，也就是只有你一個人自 high，其他人访问不到你的虚拟机。另一种是 Bridge(桥接模式)，该模式下的 VM 就像是局域网中的一台独立的主机，也就是说需要 VM 到你的路由器要 IP，这样的话局域网里面其他机器就可以访问它了，一般我们设置虚拟机都是自 high 为主，所以我们的设置一般如下：
+	Vagrant 有两种方式来进行网络连接，一种是 host-only(主机模式)，意思是主机和虚拟机之间的网络互访，而不是虚拟机访问 Internet 的技术，其他人访问不到你的虚拟机。另一种是 Bridge(桥接模式)，该模式下的 VM 就像是局域网中的一台独立的主机，也就是说需要 VM 到你的路由器要 IP，这样的话局域网里面其他机器就可以访问它了。我们设置为 host-only 模式，在 Vagrantfile 中添加如下配置：
 
-		config.vm.network :private_network, ip: "11.11.11.11"
+		config.vm.network "public_network", ip: "192.168.1.120"
 
-	这里我们虚拟机设置为 hostonly，并且指定了一个 IP，IP 的话建议最好不要用 `192.168..` 这个网段，因为很有可能和你局域网里面的其它机器 IP 冲突，所以最好使用类似 `11.11..` 这样的 IP 地址。
-
-5. 端口转发
-
-		config.vm.network :forwarded_port, guest: 80, host: 8080
-
-	上面这句配置可厉害了，这一行的意思是把对 host 机器上 8080 端口的访问请求 forward 到虚拟机的 80 端口的服务上，例如你在你的虚拟机上使用 Nginx 跑了一个 Go 应用，那么你在 host 机器上的浏览器中打开 `http://localhost:8080` 时，Vagrant 就会把这个请求转发到 VM 里面跑在 80 端口的 Nginx 服务上，因此我们可以通过这个设置来帮助我们去设定 host 和 VM 之间，或是 VM 和 VM 之间的信息交互。
-
->修改完 Vagrantfile 的配置后，记得要用 `vagrant reload` 命令来重启VM之后才能使用 VM 更新后的配置。
+修改完 Vagrantfile 的配置后，记得要用 `vagrant reload` 命令来重启VM之后才能使用 VM 更新后的配置。
 
 就这样，我们已经在个人电脑中完成了虚拟机的制作。  
 
-#### 1.3.10 再创建一台虚拟主机
 
+## 2. 加入数人云
 
-
-## 2.加入数人云
-
-现在，我要将刚才制作的虚拟机加入到数人云的集群中。  
+现在，我们要将刚才制作的虚拟机加入到数人云的集群中。  
 
 ### 2.1 建立集群
 
-登录数人云账户后，在集群管理中，点击创建群组。  
+登录数人云账户后，在集群管理页，点击创建集群。  
 
-填写集群名称（local_demo），选择 1 Master 集群，点击完成。
+填写集群名称，选择 1 Master 集群，点击完成。
 
 ### 2.2 添加主机
 
 首先，配置主机环境：
 
-1. ping 数人云；`ping www.shurenyun.com`，连通 OK；
-2. 升级 Docker；之前操作中使用的 Vagrant base 镜像中虽然预装了 Docker，但是版本较低，需要更新到最新版本，可以按照“添加主机”页面中提示的指令执行：`curl -sSL https://get.docker.com/ | sh`，待执行结束后，运行`docker version`，可以看到如下信息：  
+1. ssh 登陆虚拟机；  
+2. ping 数人云：`ping www.shurenyun.com`，连通 OK；
+3. 升级 Docker；之前操作中使用的 Vagrant base 镜像中虽然预装了 Docker，但是版本较低，需要更新到最新版本，可以按照“添加主机”页面中提示的指令执行：`curl -sSL https://get.docker.com/ | sh`，待执行结束后，运行`docker version`，最后可以看到如下信息：  
 
 ```
 Client:
@@ -221,8 +192,6 @@ Server:
  Built:        Fri Nov 20 13:12:04 UTC 2015
  OS/Arch:      linux/amd64
 ```
-
-3. 开启 iptables-nat，执行指令：`sudo iptables -t nat -L`。
 
 配置完成后，回到“添加主机”页面，填写主机名称，主机类型选择计算节点和外部网关，点击复制。   
 
@@ -259,11 +228,16 @@ Server:
 
 ### 2.3 发布应用  
 
-按照[第一个应用-2048](../get-started/2048.md)所述，发布一个 2048 游戏的小应用。  
+按照 [第一个应用-2048](../get-started/2048.md) 所述，发布一个 2048 游戏的小应用。  
 
-![](../get-started/add-app2.png)
-![](../get-started/add-app2.2.png)  
+![](../get-started/add-app2.png)  
+
+应用地址为对外 HTTP，映射端口为避免冲突一般大于1000，这里设置为8585.  
+
+![](vagrant2.png)  
+
+等待服务部署完成，进入“运行中”状态。还记得 1.3.9 在 Vagrantfile 配置的 IP 吗？我们可以在浏览器访问 ```http://l192.168.1.120:8585```，开始2048。
 
 至此，我们已经可以使用个人电脑在数人云上创建集群和发布应用了！  
 
-当然，这只是个简单的例子，毕竟个人电脑性能有限，无法进行大规模的分布式应用的部署，后面我们会有更大规模的应用部署实例提供，尽请期待！
+当然，这只是个简单的例子，毕竟个人电脑性能有限，无法进行大规模的分布式应用的部署，后面我们会有更大规模的应用部署实践提供，尽请期待！
