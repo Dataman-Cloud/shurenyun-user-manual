@@ -11,6 +11,7 @@
     * [创建/删除集群](function/create_delete_cluster.md)
     * [添加/删除主机](function/create_delete_host.md)
     * [集群/主机监控](function/monitor_cluster.md)
+    * [集群升级](function/agent_upgrade.md)
   * [应用管理](function/app.md)
     * [创建/删除应用](function/create_delete_app.md)
     * [查看应用状态](function/check_app.md)

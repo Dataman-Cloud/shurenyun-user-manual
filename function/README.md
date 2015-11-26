@@ -6,6 +6,7 @@
   * [创建/删除集群](create_delete_cluster.md)
   * [添加/删除主机](create_delete_host.md)
   * [集群/主机监控](monitor_cluster.md)
+  * [集群升级](agent_upgrade.md)
 * [应用管理](app.md)
   * [创建/删除应用](create_delete_app.md)
   * [查看应用状态](check_app.md)
