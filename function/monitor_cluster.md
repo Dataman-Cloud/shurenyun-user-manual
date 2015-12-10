@@ -7,25 +7,25 @@
 集群正常工作时，用户可以在集群管理页看到集群中有多少台主机，以及每一台主机的运行状态。  
 Master 节点以大图标显示在上方，Slave 节点以小图标排列在下方。     
 
-![](Clster Management.png)
+![](Clster_Management.png)
 
 **集群异常状态**
 
 当集群中超过半数的 Master 节点为非正常状态时，集群也将被标识为异常状态，如下图所示。
 
-![](Cluster Management--cluster doesn't work.png)   
+![](Cluster2.png)   
 
 **集群中的主机**
 
 集群管理页和集群详情页（可由查看集群进入）都能看到集群中的主机，每个主机的图形、文字符号，也都可以转向主机的详情页面。     
 
-![](Cluster Management--host status.png)  
+![](Cluster3.png)  
 
 **集群监控**  
 
 集群详情页可以进入集群监控页面，可以看到实时更新的集群资源占用情况，包括总集群的 CPU、内存用量，以及该集群中每个应用所占的资源。  
 
-![](Cluster Management--matrix.png) 
+![](Cluster4.png) 
 
 #### 主机监控
 
@@ -43,4 +43,4 @@ Master 节点以大图标显示在上方，Slave 节点以小图标排列在下�
 * 失联，主机监控程序与数人云平台的通信中断；    
 * 初始化中，主机监控程序正常运行，正在初始化数人云平台的管理组件。
 
-![](Host Detail.png)  
+![](Host_D.png)  

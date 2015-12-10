@@ -7,7 +7,7 @@
   * 高级版：3 Master，常用于小型生产环境或测试环境，建议集群主机规模 < 30;
   * 企业版：5 Master，常用于高容错性的分布式应用生产环境，建议集群逐级规模 >= 30。
 
-![](Create a new cluster.png)    
+![](Create_a_new_cluster.png)    
 
 #### 删除集群
 

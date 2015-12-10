@@ -15,11 +15,11 @@
 
 注：当作为master的主机出现异常时，新添加其他主机进入集群，需要保证新加入要做master的这台为同样的IP。  
 
-![](Add a new host.png)
+![](Add_a_new_host.png)
 
 
 #### 删除主机   
 即将主机从该集群中删除，在集群详情页选择想要删除的主机，点击删除主机按钮并确认。
 **删除主机并不删除主机上的应用数据，** 但会停止主机监控程序，即agent，从而无法通过数人云平台的集群管理访问该主机。     
 
-![](Remove Host on Cluster Detail.png)   
+![](Remove_Host_on_Cluster_Detail.png)   
