@@ -1,7 +1,7 @@
-# 数人云用户手册
+# HAHAHA
 
 ![logo](logo.png)  
-* [数人云介绍](overview/README.md)  
+* [数人云](overview/README.md)  
 * [入门教程](get-started/README.md)  
   * [账号注册](get-started/register.md)  
   * [第一个应用-2048](get-started/2048.md)  
