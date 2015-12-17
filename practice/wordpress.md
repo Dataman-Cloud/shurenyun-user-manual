@@ -11,14 +11,14 @@
 
 ### 1.2 准备主机
 
-需要准备至少一台主机，主机可以是可以连接互联网的私有主机，也可以是阿里云、Ucloud、
+需要准备至少两台主机，主机可以是可以连接互联网的私有主机，也可以是阿里云、Ucloud、
 AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主机。
 
 ### 1.3 建立集群
 
 1.3.1 登录账户后，在集群管理中，点击创建群组。  
 
-1.3.2 填写集群名称（sales_demo），选择 3 Master集群，点击完成。
+1.3.2 填写集群名称（sales_demo），选择 1 Master集群，点击完成。
 
 
 ![创建集群2](create-cluster2.png)
@@ -37,10 +37,9 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 1.4.3 选择主机类型：
   
-  * 前三台主机为 Master 节点，类型为计算节点；
-  * 第四台主机选择计算节点，用于部署无状态应用；
-  * 第五台主机选择计算节点和外部网关，用于部署对外的计算服务，该节点需要配置外网 IP 和域名；
-  * 第六台主机选择代理节点和数据节点，用于部署有状态的应用，如 Mysql、Redis 等。  
+  * 第一台主机为 Master 节点选择可选组件外部网关该节点需要配置外网 IP 或域名；
+  * 第er台主机可选组件选为内部代理；
+  
   
 注：实现本案例，所需最小规模集群为2台主机，一台为 Master 节点，另一台包括所有节点类型。为便于区分各种主机类型，分别在不同主机上部署了不同的节点类型。  
 
@@ -52,7 +51,7 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 （2）安装 Agent
 
-	curl -Ls https://www.shurenyun.com/install.sh | sudo -H sh -s 050f9bb687234f0e9e1e304aa7ddb0ba
+	sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dataman-Cloud/agent-installer/master/install-agent.sh)" -s 92a0c8b287d34445b03f8518ce688e66
 
 按提示执行以上两步后，点击"完成"即成功添加主机。
 
@@ -82,15 +81,14 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 添加应用镜像地址：mysql  
 
 填写镜像版本：latest   
+网络模式：网桥模式
 
-选择应用类型：有状态应用  
+主机选择：192.168.1.19
+ 
 
-主机选择：DB-proxy  
-这里的主机只能从数据节点中选择，目前只有 DB-proxy；有状态应用不能迁移，只能固定在被选择的节点上；另外，有状态应用一次只能部署一个容器；  
+容器目录：容器内的挂载目录  /var/lib/mysql
 
-容器目录：容器内的挂载目录  
-
-主机目录：主机上的挂载目录  
+主机目录：主机上的挂载目录  /var/lib/mysql
 
 选择容器规格： CPU：0.2   内存：256 MB  
 
@@ -119,7 +117,7 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 填写镜像版本：latest   
 
-选择应用类型：无状态应用  
+网络模式：网桥模式
 
 选择容器规格：  CPU：0.2   内存：256 MB  
 
@@ -134,7 +132,7 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 填写环境变量参数：  
 ```
-Key:WORDPRESS_DB_HOST  Value:10.3.10.63:3306  
+Key:WORDPRESS_DB_HOST  Value:192.168.1.20:3306  
 Key:WORDPRESS_DB_USER  Value:root
 Key:WORDPRESS_DB_PASSWORD  Value:your-password
 ```  
@@ -149,7 +147,7 @@ Key:WORDPRESS_DB_PASSWORD  Value:your-password
 
 ![添加应用](app-list.png)  
 
-打开浏览器，访问地址：http://yma.dataman-inc.com（替换成你的域名或者网关 IP），看到如下页面，则说明 Wordpress 应用已经成功运行。  
+打开浏览器，访问地址：http://wordpress.dataman-inc.com（替换成你的域名或者网关 IP），看到如下页面，则说明 Wordpress 应用已经成功运行。  
 
 ![添加应用](wordpress.png)
 
