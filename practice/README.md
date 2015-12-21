@@ -4,3 +4,4 @@
 
 * [搭建 wordpress 个人博客](wordpress.md)
 * [用 Vagrant 虚拟主机搭建数人云集群](vagrant.md)
+* [使用数人云 API 部署 ELK 集群](elk.md)
