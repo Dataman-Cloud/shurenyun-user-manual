@@ -64,6 +64,7 @@ IP        |  将要在集群中承担的角色  |  配置
 ```bash
 ssh ubuntu@10.3.10.91
 ```
+
 1.4.6 安装 Docker（若你的主机已经安装了 docker，此步可以跳过）
 
 ```bash
@@ -170,4 +171,32 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 
 ![kibana-webpage](kibana-webpage.png)
 
+
 <h3 id="step4">第四步: 发布 logstash 实例到待收集日志的应用server</h3>
+
+4.1 点击新建应用，新建 `logstash` 应用：  
+
+- 填写应用名称:logstash
+- 选择集群：elk
+- 添加应用镜像地址：index.shurenyun.com/dataman/logstash
+- 填写镜像版本：2.1
+- 网络模式：网桥模式
+- 选择主机: 10.3.10.97 注：由于上面我们假设应用运行在了主机 `10.3.10.97` 上，所以这里我们限制logstash在该主机上收集日志
+- 主机/容器目录
+
+  数据挂载目录|容器目录
+  ----------|-------
+  /var/log/app |/var/log/app
+  
+  注： 这里我们假设用户的应用（待采集日志的应用）日志存储在了主机目录 `/var/log/app` 下面，
+
+- 容器规格： CPU：0.3  内存：256 MB
+- 容器个数：1
+- 高级设置：
+  - CMD: 
+  
+    ```bash
+    logstash -e 'input { file { type => "linux-syslog" path => ["/var/log/app/*.log"]}} output { elasticsearch { hosts => "10.3.10.94:9998" }}'
+    ```
+
+4.2 同样，等待1-2分钟后logstash将被部署到应用server上并且开始收集日志， 用户可以通过访问 `kibana` 的页面来发掘相应的日志信息。
