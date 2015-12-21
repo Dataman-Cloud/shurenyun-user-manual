@@ -21,6 +21,7 @@
   * [日志管理](function/log.md)  
 * [快速实践](practice/README.md)  
   * [搭建 Wordpress 个人博客](practice/wordpress.md)  
-  * [用 Vagrant 虚拟主机搭建数人云集群](practice/vagrant.md)  
+  * [用 Vagrant 虚拟主机搭建数人云集群](practice/vagrant.md)
+  * [使用数人云部署 ELK 集群](practice/elk.md)
 * [常见问题](faq/README.md)   
 * [联系我们](contactus/README.md)  
