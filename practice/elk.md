@@ -90,92 +90,84 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 
 ![添加主机](add-host3.png)
 
-<h3 id="step2">2 第二步发布应用</h3>  
-部署 Wordpress 应用，首先需要部署 mysql 数据库，然后部署 Wordpress 服务；我们先从 mysql 开始。  
+<h3 id="step2">第二步: 发布 elasticsearch 实例</h3>
 
-### 2.1 新建 Mysql 应用
+这里我们将通过数人云将es的 docker 镜像以 HOST 模式部署到我们规划的主机 `10.3.10.95` 和`10.3.10.96` 上。
 
-2.1.1 选择"应用管理"中的"新建应用"，如图所示：  
+
+2.1 选择"应用管理"中的"新建应用"，如图所示：  
 
 ![新建应用](add-mysql.png)  
 
-2.1.2 新建应用  
+2.2 新建`es`应用  
 
-填写应用名称：mysql  
+- 填写应用名称：es
+- 选择集群：elk  
+- 添加应用镜像地址：index.shurenyun.com/dataman/jdk7-elasticsearch-1.4.5  
+- 填写镜像版本：2015112811   
+- 网络模式：网桥模式
+- 主机选择：10.3.10.95,10.3.10.96
+- 容器目录：容器内的挂载目录 /data/app/elasticsearch
+- 主机目录：主机上的挂载目录 /data (该目录是我们主机数据盘所在的目录)
+- 选择容器规格： CPU：0.8   内存：4096MB
+- 容器个数：2 并且勾选 *1容器:1主机*
+- 高级设置：
+  - 添加应用地址：
+  
+     应用端口| 类型|协议|地址
+     -------|---|----|---
+      9200|对内|TCP|10.3.10.94:9998
+  - 环境变量
+  
+    Key|Value
+    ---|-----
+    CLUSTERNAME|dataman-es
+    ZOOKEEPER_ADDRESS|10.3.10.91:2181,10.3.10.92:2181,10.3.10.93:2181
 
-选择集群：your-cluster  
+填写完成后，点击创建。 如下图所示：
 
-添加应用镜像地址：mysql  
+![新建ES应用](app-es-1.png)
+![新建ES应用](app-es-2.png)
 
-填写镜像版本：latest   
-网络模式：网桥模式
+第一次向集群部署ES时由于本地没有 docker 镜像 index.shurenyun.com/dataman/jdk7-elasticsearch-1.4.5，集群需要大约1-2分钟去拉取镜像（可能更长时间）。我们可以在 `es` 的应用详情页看到相应的状态，以及事件等。
 
-主机选择：192.168.1.19
- 
+<h3 id="step3">第三步: 发布 kibana 实例</h3>
 
-容器目录：容器内的挂载目录  /var/lib/mysql
+3.1 点击新建应用，新建 `kibana` 应用：  
 
-主机目录：主机上的挂载目录  /var/lib/mysql
+- 填写应用名称:kibana
+- 选择集群：elk
+- 添加应用镜像地址：index.shurenyun.com/dataman/kibana
+- 填写镜像版本：4.1.4
+- 网络模式：网桥模式
+- 选择主机: ALL
+- 容器规格： CPU：0.2  内存：256 MB
+- 容器个数：1
+- 高级设置：
+  - 应用地址：
+  
+    应用端口|类型|协议	|地址
+    -------|---|---|---
+    5601|对内|HTTP|http://10.3.10.94:5601
+    
+  - 环境变量：
+  
+    KEY|VALUE
+    ---|-----
+    ELASTICSEARCH_URL|http://10.3.10.94:9998
+  
 
-选择容器规格： CPU：0.2   内存：256 MB  
+注： kibana 需要通过环境变量**ELASTICSEARCH_URL**来确定 ElasticSearch 的地址，由于添加主机时我们已经设置**内部代理**的节点为`10.3.10.94`，并且在添加ES应用时将其端口映射到了内部代理端口`9998`, 所以这里我们只需要设置`ELASTICSEARCH_URL=http://10.3.10.94:9998`即可使得 kibana 发现 ES 实例。
 
-![新建应用](add-mysql2.png)  
 
-高级设置：  
+3.2 确认应用正常运行
 
-填写应用地址：  端口：3306，类型：对内 TCP  
-选择“对内 TCP”方式，则该应用会向内部代理注册，内部代理对外暴露3306端口；  
+来到 kibana 的应用详情页，若应用状态为**运行中**即应用已正常运行。
 
-填写环境变量参数：
-```Key:MYSQL_ROOT_PASSWORD  Value:your-password```  
+![kibana-detail](kibana-detail.png)  
 
-![新建应用](add-mysql3.png)  
-填写完成后，点击创建。  
+打开浏览器，访问地址：http://10.3.10.94:5601（可能需要为你的浏览器设置内网代理），看到如下页面，则说明 kibana 应用已经成功运行。  
 
-### 2.2 新建 Wordpress 应用  
+![kibana-webpage](kibana-webpage.png)
 
-点击新建应用，新建 Wordpress 应用：  
-
-填写应用名称:wordpress  
-
-选择集群：your-cluster  
-
-添加应用镜像地址：wordpress  
-
-填写镜像版本：latest   
-
-网络模式：网桥模式
-
-选择容器规格：  CPU：0.2   内存：256 MB  
-
-容器个数：2  
-
-![新建应用](add-wordpress1.png)  
-
-高级设置：  
-
-填写应用地址：  端口：80，类型：对外 HTTP，域名：your-website  
-注：由于 Wordpress 是 HTTP 应用，并需要对外服务发现，因此选择对外标准 HTTP，会对外暴露 80 端口；同时，需要填写域名：your-website；  
-
-填写环境变量参数：  
-```
-Key:WORDPRESS_DB_HOST  Value:192.168.1.20:3306  
-Key:WORDPRESS_DB_USER  Value:root
-Key:WORDPRESS_DB_PASSWORD  Value:your-password
-```  
-注1：应用地址选择对外标准 HTTP 时，需要配置相应的域名或外网 IP 到对外网关节点，以确保可以通过公网进行访问；  
-注2：配置 mysql 地址的环境变量时，mysql 地址应该为内部代理的 IP 和 mysql 的映射 IP，根据上述 mysql 配置，该地址为10.3.10.63:3306。
-
-![添加应用](add-wordpress2.png)  
-
-### 2.3 确认应用正常运行
-
-回到应有管理中，即可看到应用已正常运行。
-
-![添加应用](app-list.png)  
-
-打开浏览器，访问地址：http://wordpress.dataman-inc.com（替换成你的域名或者网关 IP），看到如下页面，则说明 Wordpress 应用已经成功运行。  
-
-![添加应用](wordpress.png)
-
-恭喜，现在你已经拥有了一个小型的 Wordpress 站点，并且为 web server 创建了 2 个实例，实现了最基础的横向扩展和负载均衡！
+<h3 id="step4">第四步: 发布 logstash 实例到待收集日志的应用server</h3>
