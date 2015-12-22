@@ -118,6 +118,7 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
      应用端口| 类型|协议|地址
      -------|---|----|---
       9200|对内|TCP|10.3.10.94:9998
+
   - 环境变量
   
     Key|Value
