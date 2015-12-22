@@ -114,17 +114,18 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 - 容器个数：2 并且勾选 *1容器:1主机*
 - 高级设置：
   - 添加应用地址：
-  
->>>应用端口| 类型|协议|地址
->>>-------|---|----|---
->>>9200|对内|TCP|10.3.10.94:9998
+    - 应用端口: 9200
+    - 类型: 对内
+    - 协议: TCP
+    - 地址: 10.3.10.94:9998
 
   - 环境变量
-  
->>>Key|Value
->>>---|-----
->>>CLUSTERNAME|dataman-es
->>>ZOOKEEPER_ADDRESS|10.3.10.91:2181,10.3.10.92:2181,10.3.10.93:2181
+    - Key: CLUSTERNAME
+    - Value: dataman-es
+
+  - 环境变量
+    - Key: ZOOKEEPER_ADDRESS
+    - Value: 10.3.10.91:2181,10.3.10.92:2181,10.3.10.93:2181
 
 填写完成后，点击创建。 如下图所示：
 
@@ -147,17 +148,15 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 - 容器个数：1
 - 高级设置：
   - 应用地址：
-
-    应用端口|类型|协议	|地址
-    --------|----|------|----------------------
-    5601    |对内|  HTTP|http://10.3.10.94:5601
+    - 应用端口: 5601
+    - 类型: 对内
+    - 协议: HTTP
+    - 地址: http://10.3.10.94:5601
 
   - 环境变量：
-  
-    KEY|VALUE
-    ---|-----
-    ELASTICSEARCH_URL|http://10.3.10.94:9998
-  
+    - KEY: ELASTICSEARCH_URL
+    - VALUE: http://10.3.10.94:9998
+
 
 注： kibana 需要通过环境变量**ELASTICSEARCH_URL**来确定 ElasticSearch 的地址，由于添加主机时我们已经设置**内部代理**的节点为`10.3.10.94`，并且在添加ES应用时将其端口映射到了内部代理端口`9998`, 所以这里我们只需要设置`ELASTICSEARCH_URL=http://10.3.10.94:9998`即可使得 kibana 发现 ES 实例。
 
@@ -184,10 +183,8 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 - 网络模式：网桥模式
 - 选择主机: 10.3.10.97 注：由于上面我们假设应用运行在了主机 `10.3.10.97` 上，所以这里我们限制logstash在该主机上收集日志
 - 主机/容器目录
-
-  数据挂载目录|容器目录
-  ----------|-------
-  /var/log/app |/var/log/app
+  - 数据挂载目录: /var/log/app
+  - 容器目录: /var/log/app
   
   注： 这里我们假设用户的应用（待采集日志的应用）日志存储在了主机目录 `/var/log/app` 下面，
 
