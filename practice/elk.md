@@ -115,16 +115,16 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 - 高级设置：
   - 添加应用地址：
   
-     应用端口| 类型|协议|地址
-     -------|---|----|---
-      9200|对内|TCP|10.3.10.94:9998
+>>>应用端口| 类型|协议|地址
+>>>-------|---|----|---
+>>>9200|对内|TCP|10.3.10.94:9998
 
   - 环境变量
   
-    Key|Value
-    ---|-----
-    CLUSTERNAME|dataman-es
-    ZOOKEEPER_ADDRESS|10.3.10.91:2181,10.3.10.92:2181,10.3.10.93:2181
+>>>Key|Value
+>>>---|-----
+>>>CLUSTERNAME|dataman-es
+>>>ZOOKEEPER_ADDRESS|10.3.10.91:2181,10.3.10.92:2181,10.3.10.93:2181
 
 填写完成后，点击创建。 如下图所示：
 
