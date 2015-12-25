@@ -42,72 +42,70 @@
     
     传输 128字节，使用apache benchmark 进行测试， HAProxy 负载均衡到后面3个实例，它大约能承载每秒 2000 个并发， 11000个请求。另外，cpu使用率高于 90%, 内存使用率低于 300M。
 
-    ```
-    root# ab -n 100000 -c 1500 http://10.3.10.138:88/128.html
-    This is ApacheBench, Version 2.3 <$Revision: 1528965 $>
-    Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-    Licensed to The Apache Software Foundation, http://www.apache.org/
+          root# ab -n 100000 -c 1500 http://10.3.10.138:88/128.html
+          This is ApacheBench, Version 2.3 <$Revision: 1528965 $>
+          Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+          Licensed to The Apache Software Foundation, http://www.apache.org/
+          
+          Benchmarking 10.3.10.138 (be patient)
+          Completed 10000 requests
+          Completed 20000 requests
+          Completed 30000 requests
+          Completed 40000 requests
+          Completed 50000 requests
+          Completed 60000 requests
+          Completed 70000 requests
+          Completed 80000 requests
+          Completed 90000 requests
+          Completed 100000 requests
+          Finished 100000 requests
+
+          Server Software:        nginx/1.8.0
+          Server Hostname:        10.3.10.138
+          Server Port:            88
+
+          Document Path:          /128.html
+          Document Length:        128 bytes
+
+          Concurrency Level:      1500
+          Time taken for tests:   8.756 seconds
+          Complete requests:      100000
+          Failed requests:        0
+          Total transferred:      44000000 bytes
+          HTML transferred:       12800000 bytes
+          Requests per second:    11420.69 [#/sec] (mean)
+          Time per request:       131.341 [ms] (mean)
+          Time per request:       0.088 [ms] (mean, across all concurrent requests)
+          Transfer rate:          4907.33 [Kbytes/sec] received
+
+          Connection Times (ms)
+                        min  mean[+/-sd] median   max
+          Connect:        0   35  43.5     34    1081
+          Processing:    11   96  55.8     90    1169
+          Waiting:       11   82  55.8     75    1143
+          Total:         51  130  66.9    127    1179
+
+          Percentage of the requests served within a certain time (ms)
+            50%    127
+            66%    134
+            75%    137
+            80%    140
+            90%    151
+            95%    161
+            98%    182
+            99%    227
+           100%   1179 (longest request)
 
 
-    Benchmarking 10.3.10.138 (be patient)
-    Completed 10000 requests
-    Completed 20000 requests
-    Completed 30000 requests
-    Completed 40000 requests
-    Completed 50000 requests
-    Completed 60000 requests
-    Completed 70000 requests
-    Completed 80000 requests
-    Completed 90000 requests
-    Completed 100000 requests
-    Finished 100000 requests
+
+>>>![HAproxy report 截图](11.pic_hd.jpg)
 
 
-    Server Software:        nginx/1.8.0
-    Server Hostname:        10.3.10.138
-    Server Port:            88
+ 
+   **测试2**
 
-    Document Path:          /128.html
-    Document Length:        128 bytes
+   传输256字节， 使用apache benchmark 进行测试， HAProxy 负载均衡到后面3个实例，它大约能承载每秒 2000 个并发， 11000个请求。另外，cpu使用率高于 90%, 内存使用率低于 350M。
 
-    Concurrency Level:      1500
-    Time taken for tests:   8.756 seconds
-    Complete requests:      100000
-    Failed requests:        0
-    Total transferred:      44000000 bytes
-    HTML transferred:       12800000 bytes
-    Requests per second:    11420.69 [#/sec] (mean)
-    Time per request:       131.341 [ms] (mean)
-    Time per request:       0.088 [ms] (mean, across all concurrent requests)
-    Transfer rate:          4907.33 [Kbytes/sec] received
-
-    Connection Times (ms)
-                  min  mean[+/-sd] median   max
-    Connect:        0   35  43.5     34    1081
-    Processing:    11   96  55.8     90    1169
-    Waiting:       11   82  55.8     75    1143
-    Total:         51  130  66.9    127    1179
-
-    Percentage of the requests served within a certain time (ms)
-      50%    127
-      66%    134
-      75%    137
-      80%    140
-      90%    151
-      95%    161
-      98%    182
-      99%    227
-     100%   1179 (longest request)
-    ```
-
-    ![HAproxy report 截图](11.pic_hd.jpg)
-
-
-    **测试2**
-
-    传输256字节， 使用apache benchmark 进行测试， HAProxy 负载均衡到后面3个实例，它大约能承载每秒 2000 个并发， 11000个请求。另外，cpu使用率高于 90%, 内存使用率低于 350M。
-
-    ```
     root# ab -n 100000 -c 1500 http://10.3.10.138:88/256.html
     This is ApacheBench, Version 2.3 <$Revision: 1528965 $>
     Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
@@ -162,6 +160,6 @@
       98%    179
       99%    287
      100%   1149 (longest request)
-     ```
 
-     ![HAproxy report 截图](12.pic_hd.jpg)
+
+![HAproxy report 截图](12.pic_hd.jpg)
