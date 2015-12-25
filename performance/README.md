@@ -43,12 +43,12 @@
     传输 128字节，使用apache benchmark 进行测试， HAProxy 负载均衡到后面3个实例，它大约能承载每秒 2000 个并发， 11000个请求。另外，cpu使用率高于 90%, 内存使用率低于 300M。
     
     ```bash
-     # ab -n 100000 -c 1500 http://10.3.10.138:88/128.html
-     This is ApacheBench, Version 2.3 <$Revision: 1528965 $>
-     Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-     Licensed to The Apache Software Foundation, http://www.apache.org/     
-
-     Benchmarking 10.3.10.138 (be patient)
+root# ab -n 100000 -c 1500 http://10.3.10.138:88/128.html
+This is ApacheBench, Version 2.3 <$Revision: 1528965 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/     
+     
+Benchmarking 10.3.10.138 (be patient)
 Completed 10000 requests
 Completed 20000 requests
 Completed 30000 requests
@@ -106,7 +106,7 @@ Percentage of the requests served within a certain time (ms)
     传输256字节， 使用apache benchmark 进行测试， HAProxy 负载均衡到后面3个实例，它大约能承载每秒 2000 个并发， 11000个请求。另外，cpu使用率高于 90%, 内存使用率低于 350M。
     
     ```bash
-    # ab -n 100000 -c 1500 http://10.3.10.138:88/256.html
+root# ab -n 100000 -c 1500 http://10.3.10.138:88/256.html
 This is ApacheBench, Version 2.3 <$Revision: 1528965 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
