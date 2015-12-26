@@ -13,6 +13,7 @@
 #### 第二步: [发布 elasticsearch 实例](#step2)
 #### 第三步: [发布 kibana 实例](#step3)
 #### 第四步: [发布 logstash 实例到待收集日志的应用server](#step4)
+#### 第五步: [扩展/减少实例数(可选)](#step5)
 
 ### 正文
 
@@ -158,7 +159,7 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
     - VALUE: http://10.3.10.94:9998
 
 
-注： kibana 需要通过环境变量**ELASTICSEARCH_URL**来确定 ElasticSearch 的地址，由于添加主机时我们已经设置**内部代理**的节点为`10.3.10.94`，并且在添加ES应用时将其端口映射到了内部代理端口`9998`, 所以这里我们只需要设置`ELASTICSEARCH_URL=http://10.3.10.94:9998`即可使得 kibana 发现 ES 实例。
+注： `Kibana` 需要通过环境变量**ELASTICSEARCH_URL**来确定 `ElasticSearch` 的地址，由于添加主机时我们已经设置**内部代理**的节点为`10.3.10.94`，并且在添加ES应用时将其端口映射到了内部代理端口`9998`, 所以这里我们只需要设置`ELASTICSEARCH_URL=http://10.3.10.94:9998`即可使得 kibana 发现 ES 实例。
 
 
 3.2 确认应用正常运行
@@ -181,7 +182,7 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 - 添加应用镜像地址：index.shurenyun.com/dataman/logstash
 - 填写镜像版本：2.1
 - 网络模式：网桥模式
-- 选择主机: 10.3.10.97 注：由于上面我们假设应用运行在了主机 `10.3.10.97` 上，所以这里我们限制logstash在该主机上收集日志
+- 选择主机: 10.3.10.97 注：由于上面我们假设应用运行在了主机 `10.3.10.97` 上，所以这里我们限制 `logstash` 在该主机上收集日志
 - 主机/容器目录
   - 数据挂载目录: /var/log/app
   - 容器目录: /var/log/app
@@ -197,4 +198,8 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
     logstash -e 'input { file { type => "linux-syslog" path => ["/var/log/app/*.log"]}} output { elasticsearch { hosts => "10.3.10.94:9998" }}'
     ```
 
-4.2 同样，等待1-2分钟后logstash将被部署到应用server上并且开始收集日志， 用户可以通过访问 `kibana` 的页面来发掘相应的日志信息。
+4.2 同样，等待1-2分钟后 `logstash` 将被部署到应用 `server` 上并且开始收集日志， 用户可以通过访问 `kibana` 的页面来发掘相应的日志信息。
+
+<h3 id="step5">第五步: 扩展/减少实例数(可选)</h3>
+
+为了提高集群的资源利用率，我们可能需要根据负载来扩展或者减少 ElasticSearch, Kibana 等的实例数，在数人云的**应用列表页**或者**应用详情页**, 点击**扩展**按钮，即可快速调整相应应用的实例数。
