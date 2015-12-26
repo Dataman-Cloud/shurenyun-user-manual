@@ -13,7 +13,7 @@
 #### 第二步: [发布 elasticsearch 实例](#step2)
 #### 第三步: [发布 kibana 实例](#step3)
 #### 第四步: [发布 logstash 实例到待收集日志的应用server](#step4)
-#### 第五步: [扩展/减少实例数(可选)](#step5)
+#### 第五步: [快速扩展/减少 elasticsearch, kibana 实例数(可选)](#step5)
 
 ### 正文
 
@@ -200,6 +200,6 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 
 4.2 同样，等待1-2分钟后 `logstash` 将被部署到应用 `server` 上并且开始收集日志， 用户可以通过访问 `kibana` 的页面来发掘相应的日志信息。
 
-<h3 id="step5">第五步: 扩展/减少实例数(可选)</h3>
+<h3 id="step5">第五步: 快速扩展/减少 elasticsearch, kibana 实例数(可选)</h3>
 
 为了提高集群的资源利用率，我们可能需要根据负载来扩展或者减少 ElasticSearch, Kibana 等的实例数，在数人云的**应用列表页**或者**应用详情页**, 点击**扩展**按钮，即可快速调整相应应用的实例数。
