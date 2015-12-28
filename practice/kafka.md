@@ -54,18 +54,25 @@
 * 容器个数: your-kafka-number
 
 点选:1容器/1主机 <- 每个宿主机只能运行1个 app
+
 ![](kafka-add-app-2.jpg)
+
 添加应用地址：
+
 ![](kafka-add-app-3.jpg)
 ![](kafka-add-app-4.jpg)
+
 添加环境变量：
+
 ![](kafka-add-app-5.jpg)
 ![](kafka-add-app-6.jpg)
 
 2.2.3 检查应用状态：
 
 简单的检查应用占用集群资源的情况，点击应用管理 -> 选择监控的 tab 页
+
 ![](kafka-app-metrics.jpg)
+
 至此，Kafka集群已经建立完毕, 可没有一个web界面来管理？别急，下面我们就开始介绍如何搭建一个基于Web的管理工具Kafka_Manager。
 
 
@@ -96,27 +103,36 @@
 * 容器个数: 1
 
 点选:1容器/1主机 <- 每个宿主机只能运行1个 app
+
 ![](kafkamanager-add-app-2.jpg)
+
 添加应用地址：
+
 ![](kafkamanager-add-app-3.jpg)
 ![](kafkamanager-add-app-4.jpg)
+
 添加环境变量：
+
 ![](kafkamanager-add-app-5.jpg)
 ![](kafkamanager-add-app-6.jpg)
 
 3.3 检查应用状态：
 
-![](kafkamanager-add-app-7.jpg)
+![](kafkamanager-metrics.jpg)
+
 简单的检查应用占用集群资源的情况，点击应用管理 -> 选择监控的 tab 页
 
 
 3.4 打开 Kafka_Manager 页面：
 
 浏览器输入你的监控地址域名后，按照你的集群情况添加信息
-![](kafkamanager-add-app-8.jpg)
+
+![](kafkamanager-1.jpg)
 
 3.5 点击 save 后，就可以打开监控页面：
 
 可以看到刚才我们加入的 kafka 集群，数量是3个
-![](kafkamanager-add-app-9.jpg)
+
+![](kafkamanager-2.jpg)
+
 现在包含web端管理工具的Kafka集群就搭建完成了，大家可以尽情的玩耍和测试了~ 有任何问题，可以到【http://open.shurenyun.com/article/18#rd?sukey=fc78a68049a14bb2bde2e05567742eb46ff30be6b5ec83fd4c4451e7fe5e5f4565b8ee535b0e03f51f432e1f1dce409d】 技术社区交流。
