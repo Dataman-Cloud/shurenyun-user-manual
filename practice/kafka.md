@@ -69,7 +69,7 @@
 至此，Kafka集群已经建立完毕, 可没有一个web界面来管理？别急，下面我们就开始介绍如何搭建一个基于Web的管理工具Kafka_Manager。
 
 
-#### 第三步: [发布 Kafka_Manager 应用](#step3)
+<h3 id="step3">第三步: [发布 Kafka_Manager 应用]</h3>
 
 因为 Kafka_Manager 是监控 Kafka 的工具，所以在启动 Kafka_Manager 前，请先按照上面的说明启动 Kafka。
 
