@@ -107,7 +107,7 @@ sudo -H OMEGA_ENV=prod bash -c "$(curl -Ls https://raw.githubusercontent.com/Dat
 - 选择集群：elk  
 - 添加应用镜像地址：index.shurenyun.com/dataman/jdk7-elasticsearch-1.4.5  
 - 填写镜像版本：2015112811   
-- 网络模式：网桥模式
+- 网络模式：HOST模式
 - 主机选择：10.3.10.95,10.3.10.96
 - 容器目录：容器内的挂载目录 /data/app/elasticsearch
 - 主机目录：主机上的挂载目录 /data (该目录是我们主机数据盘所在的目录)
