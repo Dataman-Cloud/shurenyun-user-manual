@@ -149,6 +149,8 @@ docker-entrypoint.sh
 		端口：9160，类型：对内 TCP，映射端口：9160    
 	添加环境变量：  
 		CASSANDRA_SEEDS=ip1,ip2,ip3（3台主机的 IP，以逗号分隔）
+		HEAP_NEWSIZE=300m
+		MAX_HEAP_SIZE=2g
 
 >注1：CASSANDRA_SEEDS：Cassandra集群的种子节点地址；这个选项可以设置多个值，即Cassandra集群中有多个种子节点，集群中所有的服务器在启动的时候，都将于seed节点进行通信，从而获取集群的相关信息；这里选择3台主机作为 seed 节点；  
 >注2：Cassandra 启动需要足够的资源，建议 CPU 数最小为1，内存最低2G；  
