@@ -1,16 +1,18 @@
 ## 使用数人云运行 Spark 集群  
 
-Cassandra 是一个高可靠的大规模分布式存储系统，是一个高度可伸缩的、一致的、分布式的结构化 key-value 存储方案，集 Google BigTable 的数据模型与 Amazon Dynamo 的完全分布式的架构于一身。2007由facebook开发，2009年成为Apache的孵化项目。由于 Cassandra 良好的可扩展性，被 Digg、Twitter 等知名网站所采纳，成为了一种流行的分布式结构化数据存储方案。
+Spark 是 UC Berkeley AMP lab 开源的类 Hadoop MapReduce 的通用的并行计算框架；Spark 基于 map reduce 算法实现的分布式计算，拥有 Hadoop MapReduce 所具有的优点；但不同于MapReduce的是Job中间输出和结果可以保存在内存中，从而不再需要读写 HDFS，因此 Spark 能更好地适用于数据挖掘与机器学习等需要迭代的 map reduce 的算法。  
 
-接下来，来体验一下用数人云来部署 Cassandra 集群吧。
+Spark 支持三种分布式部署方式，分别是 Standalone、Spark on Yarn 以及 Spark on Mesos。其中 Spark on Mesos 模式是很多公司采用的模式，并且 Spark 官方也推荐这种模式。正是由于 Spark 开发之初就考虑到支持 Mesos，因此，目前而言，Spark 运行在 Mesos 上会比运行在 Yarn 上更加灵活，更加自然。数人云集群正是通过 Mesos 进行集群资源调度，因此，数人云部署 Spark 集群，有着天然的优势。
+
+接下来，我们就来体验一下用数人云部署 Spark 集群吧。
 
 <h3 id="step1">第一步 制作镜像</h3>
 
-首先，我们需要在 Docker 环境下制作 Spark 的 Docker image，并推送至可访问的 Docker Registry。  
+首先，我们需要在 Docker 环境下制作 Spark 的 Docker 镜像，并推送至可访问的 Docker 镜像仓库。  
 
 ####1. 编写如下配置文件  
 
-mesos-site.xml
+(1) mesos-site.xml  
 
 ```	
 	<?xml version="1.0" encoding="UTF-8"?>
@@ -92,7 +94,7 @@ mesos-site.xml
 	</configuration>
 ```
 
-hdfs-site.xml
+(2) hdfs-site.xml  
 
 ```
 	<configuration>
@@ -143,7 +145,9 @@ hdfs-site.xml
 	</configuration>
 ```  
 
-core-site.xml
+>注：对接 HDFS 时，需要将 ```dfs.namenode.http-address.hdfs.nn1``` 配置为 HDFS Namenode 地址；
+
+(3) core-site.xml
 
 ```  
 	<?xml version="1.0" encoding="UTF-8"?>
@@ -181,7 +185,7 @@ core-site.xml
 	</configuration>
 ```  
 
-spark-env.sh
+(4) spark-env.sh  
 
 ```  
   export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:jre/bin/java::")
@@ -192,15 +196,20 @@ spark-env.sh
   export LIBPROCESS_IP=`ifconfig eth0 | awk '/inet addr/{print substr($2,6)}'`
 ```  
 
-spark-default.conf
+>注1：数人云已经在 Master 节点预装了 Zookeeper，因此 ```MASTER``` 需要配置为数人云集群的zookeeper 地址；
+>注2：```SPARK_LOCAL_IP、SPARK_LOCAL_HOSTNAME、LIBPROCESS_IP```取值都为主机 IP，如果该主机使用的网卡不是 eth0 的话，注意修改这里的网卡名；
+
+(5) spark-default.conf
 
 ```  
   spark.mesos.coarse=true
   spark.mesos.executor.home /opt/spark/dist
-  spark.mesos.executor.docker.image index.shurenyun.com/mesosphere/spark:1.5.0-hadoop2.6.0
+  spark.mesos.executor.docker.image your.registry.site/spark:1.5.0-hadoop2.6.0
 ```  
 
-####2. 编写 Dockerfile  
+>其中，```spark.mesos.executor.docker.image``` 需要配置为 Spark 镜像在镜像仓库的地址；数人云已将该镜像推送至测试仓库 ```index.shurenyun.com```。
+
+#### 2. 编写 Dockerfile  
 
 ```  
 	FROM mesosphere/mesos:0.23.0-1.0.ubuntu1404
@@ -230,34 +239,36 @@ spark-default.conf
 	WORKDIR /opt/spark/dist
 ```  
 
-####3. 创建并上传 Docker image:  
+#### 3. 创建并上传 Docker image:  
 
 ```
 	docker build -t your.registry.site/spark:1.5.0-hadoop2.6.0   
 	docker push your.registry.site/spark:1.5.0-hadoop2.6.0  
 ```
 
-* 请把 ```your.registry.site``` 换成你的镜像仓库地址；数人云已将该镜像推送至测试仓库 ```index.shurenyun.com```.
+>需把 ```your.registry.site``` 换成你的镜像仓库地址；数人云已将该镜像推送至测试仓库 ```index.shurenyun.com```。
 
 <h3 id="step2">第二步 建立集群</h3>
 
-请参见 [创建/删除集群](../function/create_delete_cluster.md) 来创建您的集群。  
-
-创建集群的实例可以参考[第一个应用-2048](../get-started/2048.md)。 
+请参见 [创建/删除集群](../function/create_delete_cluster.md) 来创建你的集群。  
 
 <h3 id="step3">第三步 发布应用</h3>    
   
-登录到集群网络中的一台主机上：
-  启动spark driver container
+部署 Spark on Mesos 的架构图如下所示：
+
+![](spark-cluster.png)
+
+其中，Cluster Manager 角色由 Mesos 承担，也就是数人云集群的 Master；Driver Program 用于下发 Spark 计算任务，需要在数人云集群内网的某个节点上手动启动，该节点可以是 Master 或 Slave，或者与数人云集群相通的内网机器；Woker Node 由 Mesos slave 承担，也就是数人云集群的 Slave。
+
+登录到需要启动 Driver Program 的主机上，启动 Spark container：
   
   ```
 docker run -it --net host -e ZOOKEEPER_ADDRESS=10.3.10.29:2181,10.3.10.63:2181,10.3.10.51:2181 index.shurenyun.com/spark:1.5.0-hadoop2.6.0 bash 
   ```
 
->注1：CASSANDRA_SEEDS：Cassandra集群的种子节点地址；这个选项可以设置多个值，即Cassandra集群中有多个种子节点，集群中所有的服务器在启动的时候，都将于seed节点进行通信，从而获取集群的相关信息；这里选择3台主机作为 seed 节点；  
->注2：Cassandra 启动需要足够的资源，建议 CPU 数最小为1，内存最低2G；  
->注3：Cassandra 节点间需要通信，所以选择 HOST 模式部署，避免端口隐射导致而节点间无法通信；  
->注4：如果对 Cassandra 集群有大致的规划，可以在选择主机处选择所需数量的主机；应用发布后，可以在所选主机的数量范围内，自由伸缩 Cassandra 节点数量。  
+>注1：Spark 启动需要足够的资源，建议 CPU 数最小为1，内存最低1G；  
+>注2：Spark 节点间需要通信，所以选择 HOST 模式部署，避免端口隐射导致而节点间无法通信；  
+>注3：请将```ZOOKEEPER_ADDRESS```的取值换成你的数人云集群的 Master 地址，端口为2181。
 
 <h3 id="step4">第四步 测试</h3>  
 
@@ -275,6 +286,6 @@ docker run -it --net host -e ZOOKEEPER_ADDRESS=10.3.10.29:2181,10.3.10.63:2181,1
 
 若看到名为 test 的 keyspace 已经添加成功，如下图所示：
 
-![](spark-cluster.png)
+![](spark2.png)
 
-恭喜，现在你的 Cassandra 集群已经正常运作了！
+恭喜，现在你的 Spark 集群已经正常运作了！如果觉得这种方式使用 Spark 仍觉得不方便，想要更直观的方法，比如在浏览器上编写和测试 Spark 算法，可以尝试使用 Zeppelin 编写和运行 Spark 任务，稍后数人云会为您提供在数人云上玩转 Zeppelin 的最佳实践，敬请期待！
