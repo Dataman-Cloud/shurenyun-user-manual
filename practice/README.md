@@ -8,3 +8,4 @@
 * [OneSQL 入驻数人云](onesql.md)
 * [永洪 BI 入驻数人云](yonghongbi.md)
 * [使用数人云部署 Cassandra 集群](cassandra.md)
+* [唯快不破：如何快速搭建Jenkins加速产品迭代](jenkins.md)

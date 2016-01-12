@@ -78,12 +78,12 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 选择集群：your-cluster  
 
-添加应用镜像地址：mysql  
+添加应用镜像地址：index.shurenyun.com/mysql  
 
-填写镜像版本：latest   
+填写镜像版本：5.6   
 网络模式：网桥模式
 
-主机选择：192.168.1.19
+主机选择：your-node
  
 
 容器目录：容器内的挂载目录  /var/lib/mysql
@@ -113,9 +113,9 @@ AWS、Azure、首都在线、华为云等公有云上购买的任意一台云主
 
 选择集群：your-cluster  
 
-添加应用镜像地址：wordpress  
+添加应用镜像地址：index.shurenyun.com/wordpress  
 
-填写镜像版本：latest   
+填写镜像版本：4.3   
 
 网络模式：网桥模式
 
