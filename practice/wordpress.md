@@ -137,7 +137,7 @@ Key:WORDPRESS_DB_USER  Value:root
 Key:WORDPRESS_DB_PASSWORD  Value:your-password
 ```  
 注1：应用地址选择对外标准 HTTP 时，需要配置相应的域名或外网 IP 到对外网关节点，以确保可以通过公网进行访问；  
-注2：配置 mysql 地址的环境变量时，mysql 地址应该为内部代理的 IP 和 mysql 的映射 IP，根据上述 mysql 配置，该地址为10.3.10.63:3306。
+注2：配置 mysql 地址的环境变量时，mysql 地址应该为内部代理的 IP 和 mysql 的映射 IP，根据上述 mysql 配置，该地址为192.168.1.20:3306。
 
 ![添加应用](add-wordpress2.png)  
 
