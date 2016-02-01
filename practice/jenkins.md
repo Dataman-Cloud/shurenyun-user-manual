@@ -33,13 +33,13 @@ Jenkins 是基于 Java 开发的一种持续集成 (CI) 工具，使用数人云
 
 * 填写应用名称：jenkins
 * 选择集群：demo
-* 添加应用镜像地址：testregistry.dataman.io/centos7/mesos-0.23.0-jdk8-jenkins1.628-master
-* 填写镜像版本：app.v0.3
+* 添加应用镜像地址：index.shurenyun.com/centos7/mesos-0.23.0-jdk8-jenkins1.628-master
+* 填写镜像版本：customer.v0.1
 * 选择应用模式：HOST模式
 * 选择应用类型：有状态应用
 * 选择主机：主机下拉列表中选择任一合适IP即可
-* 主机/容器目录配置： 数据挂载目录：/data/jenkins  容器目录：/var/lib/jenkins
-* 选择容器规格：CPU：0.2  内存：512MB
+* 主机/容器目录配置： 数据挂载目录：/data/jenkins  容器目录：/var/lib/jenkins (数据持久化挂载目录可根据个人需求选择挂载目录)
+* 选择容器规格：CPU：1  内存：2048MB (内存资源尽量给大些)
 
 ![新建Jenkins应用](./jenkins/A.png)
 
@@ -68,14 +68,16 @@ Jenkins 是基于 Java 开发的一种持续集成 (CI) 工具，使用数人云
 
 如果我们想要将Jenkins作为mesos的一个framework注册到mesos上，需要在成功启动 Jenkins之后对其插件进行设置。
 
-设置 Jenkins-Mesos 分三层，点击左上角"系统管理"，然后在系统管理页面点击"系统设置"。
+设置 Jenkins-Mesos 分三层，点击左上角"系统管理"，然后在系统管理页面点击"系统设置"，最后我们在左下角处点击"新增一个云"并选择下拉框中的"Mesos Cloud"选项。
+
+![Jenkins 选择Mesos插件设置](./jenkins/j0.png)
 
 1. Jenkins 调用 Mesos 集群设置
 
 * Mesos native library path 设置 Mesos lib 库路径，一般在/usr/lib/libmesos.so，拷贝无效，必须安装 Mesos。
-* Mesos Master [hostname:port] 设置 Mesos-Master 地址加端口，如果单 Mesos-Master 模式，使用 mesos-master-ip:5050格式，如果是多 Mesos-Master 使用 zk://zk1:2181,zk2:2181,zk3:2181/mesos 格式
-* Framework Name 设置 Mesos Master 查看到的应用框架名称
-* Slave username 设置 Slave的名字
+* Mesos Master [hostname:port] 设置 Mesos-Master 地址加端口，如果单 Mesos-Master 模式，使用 mesos-master-ip:5050格式或者zk://masterip:2181/mesos，如果是多 Mesos-Master 使用 zk://zk1:2181,zk2:2181,zk3:2181/mesos 格式
+* Framework Name 设置 Mesos Master 查看到的应用框架名称(如: Jenkins Scheduler)
+* Slave username 设置 Slave的名字(root)
 * Checkpointing 设置检查
 * On-demand framework registration 设置是否在无任务的情况下，从 Mesos-Master 注销应用框架
 
@@ -83,9 +85,10 @@ Jenkins 是基于 Java 开发的一种持续集成 (CI) 工具，使用数人云
 
 2. Jenkins Slave 调用 Mesos-Slave 类型设置(可按资源)
 
-* Label String 设置 Slave 标签
+* Label String 设置 Slave 标签(如: shurenyun)
 * Maximum number of Executors per Slave 每个 Slave 可以同时执行几个任务
 * Mesos Offer Selection Attributes 选择在那些 Mesos Slave 标签资源上运行，格式{"clusterType":"标签"}
+* 除Label String自行设置外，其余选项皆可默认
 
 ![Jenkins Slave 调用 Mesos-Slave 类型设置](./jenkins/j2.png)
 
@@ -95,6 +98,15 @@ Jenkins 是基于 Java 开发的一种持续集成 (CI) 工具，使用数人云
 * Networking - Bridge 设置网络模式，这里一定要设置网桥模式
 * Port Mapping -Container Port & Host Prot 设置容器端口关系，必须设置否则会导致 Mesos-DNS 因找不到端口映射崩溃，Host Port 默认设置为空(自动取)，否则必须设置在39000以后的Mesos Slave 选定端口内。
 * Volumes 挂载目录，必须挂载 slave.jar 和 docker in docker 
+* 我们提供了为大家体验使用的Jenkins Slave镜像：index.shurenyun.com/centos7/jenkins-slave:customer.v0.1
+* 点击"Add Port Mapping"添加端口映射
+* 点击"Add Volume"添加容器主机目录挂载
+* 容器：/mnt/mesos/sandbox/slave.jar 主机：/data/mesos/jenkins/slave.jar
+* 容器：/var/lib/docker              主机：/var/lib/docker
+* 容器：/var/run/docker.sock         主机：/var/run/docker.sock
+* 容器：/usr/bin/docker              主机：/usr/bin/docker
+* 容器：/sys/fs/cgroup               主机：/sys/fs/cgroup
+
 
 ![Jenkins Slave 调用 Docker 镜像设置1](./jenkins/j3.png)
 
