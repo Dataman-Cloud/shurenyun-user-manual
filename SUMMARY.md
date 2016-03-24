@@ -22,7 +22,6 @@
 * [快速实践](practice/README.md)  
   * [搭建 Wordpress 个人博客](practice/wordpress.md)  
   * [用 Vagrant 虚拟主机搭建数人云集群](practice/vagrant.md)  
-  * [使用数人云部署 ELK 集群](practice/elk.md)  
   * [OneSQL 入驻数人云](practice/onesql.md)  
   * [永洪 BI 入驻数人云](practice/yonghongbi.md)  
   * [使用数人云部署 Cassandra 集群](practice/cassandra.md)
