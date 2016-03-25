@@ -828,3 +828,5 @@ tsung 是个分布式的压测工具，已单个硬件作为程序说明。
         - docker 下发48个(每台8个,折算48w并发连接)    
 
 ### 7.2 [最终结果](http://qinghua.dataman-inc.com/report.html)
+
+### [压力测试解决方案免费咨询>>](https://www.shurenyun.com/scene-stresstesting)
