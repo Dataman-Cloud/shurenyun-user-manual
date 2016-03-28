@@ -5,7 +5,7 @@
 * [用户中心](userinfo.md)
   * [新建用户组](userinfo01.md)
   * [修改密码](userinfo02.md)
-  * [用户组管理](userinfo02.md)
+  * [用户组管理](userinfo03.md)
 * [集群管理](cluster.md)
   * [创建/删除集群](create_delete_cluster.md)
   * [添加/删除主机](create_delete_host.md)
