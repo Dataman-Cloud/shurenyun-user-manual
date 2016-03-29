@@ -794,38 +794,43 @@ tsung 是个分布式的压测工具，已单个硬件作为程序说明。
     - tsung 客户端加压机
         - 数量 20
         - cpu 40核超线程
-        - mem 141G
+        - mem 128G
         - network 万兆网络 
-        - cpu 消耗 不到瓶颈
+        
+        - cpu/内存/网络 消耗均不到瓶颈
         - docker host模式
-        - docker 下发20个(每台1个)
+        - docker 发布20个(每台1个)
     - tsung 控制器
         - 数量 1 
         - cpu 40核超线程
-        - mem 141G
-        - network 万兆网络 
-        - 完全没瓶颈
+        - mem 128G
+        - network 万兆网络
+         
+        - 完全没瓶颈(实验用机随意选择，可以配置更低)
         - docker host模式
-        - docker 下发1个(每台1个)
+        - docker 发布1个
 - 转发
     - haproxy
         - 数量 4
         - cpu 48核超线程
         - mem 141G
-        - network 万兆网络 
+        - network 万兆网络
+         
         - cpu 消耗超高-瓶颈
         - 内存消耗 将尽20g
-        - 实体模式
+        - docker host模式
+        - docker 发布4个(每台1个)
 - 承压              
     - nginx
         - 数量 6
         - cpu 32核超线程
         - mem 141G
         - network 万兆网络 
+        
         - cpu 消耗超高
         - mem 消耗10g
         - docker nat模式
-        - docker 下发48个(每台8个,折算48w并发连接)    
+        - docker 下发48个(每台8个,折算48w并发连接,实时处理每台14w左右，这样计算可以承载80w左右处理)    
 
 ### 7.2 [最终结果](http://qinghua.dataman-inc.com/report.html)
 
