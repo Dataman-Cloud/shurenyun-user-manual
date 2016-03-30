@@ -6,8 +6,8 @@
     ![添加组界面](add_usergp.png)
  
  
-  * [新建用户组](userinfo01.md)
+  * [新建用户组](user_group.md)
   
-  * [修改密码](userinfo02.md)
+  * [修改密码](password.md)
   
-  * [用户组管理](userinfo02.md)
+  * [用户组管理](user_group_manage.md)
