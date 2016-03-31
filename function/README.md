@@ -17,7 +17,7 @@
   * [启动/停止应用](start_stop_app.md)
   * [应用弹性伸缩](elastic_app.md) 
 * [镜像构建](build_img.md)
-  * [新建项目](creat_img.md)
+  * [新建项目](create_img.md)
   * [镜像修改](update_img.md)
   * [镜像部署](deploy_img.md)
 * [日志管理](log.md)
