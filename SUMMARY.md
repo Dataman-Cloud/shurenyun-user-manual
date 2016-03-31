@@ -24,7 +24,7 @@
     * [应用弹性伸缩](function/elastic_app.md)
   * [镜像构建](function/build_img.md)
     * [新建项目](function/create_img.md)
-    * [镜像修改](function/update_img.md)
+    * [镜像详情](function/update_img.md)
     * [镜像部署](function/deploy_img.md) 
   * [日志管理](function/log.md)  
 * [快速实践](practice/README.md)  

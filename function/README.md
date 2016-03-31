@@ -18,6 +18,6 @@
   * [应用弹性伸缩](elastic_app.md) 
 * [镜像构建](build_img.md)
   * [新建项目](create_img.md)
-  * [镜像修改](update_img.md)
+  * [镜像详情](update_img.md)
   * [镜像部署](deploy_img.md)
 * [日志管理](log.md)
