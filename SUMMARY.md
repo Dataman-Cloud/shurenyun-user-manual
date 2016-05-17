@@ -1,7 +1,9 @@
 # 数人云用户手册
 
 ![logo](logo.png)  
+
 * [数人云介绍](overview/README.md)  
+
 * [入门教程](get-started/README.md)  
   * [账号注册](get-started/register.md)  
   * [第一个应用-2048](get-started/2048.md)  
@@ -12,11 +14,9 @@
     * [新建用户组](function/user_group.md)
     * [修改密码](function/password.md)
     * [用户组管理](function/user_group_manage.md)
-  * [集群管理](function/cluster.md)  
-    * [创建/删除集群](function/create_delete_cluster.md)  
-    * [添加/删除主机](function/create_delete_host.md)  
-    * [集群/主机监控](function/monitor_cluster.md)  
-    * [集群升级](function/agent_upgrade.md)  
+  * [服务策略](function/policy.md) 
+    * [应用告警](function/app_policy.md)
+    * [日志告警](function/logs_policy.md)
   * [应用管理](function/app.md)  
     * [创建/删除应用](function/create_delete_app.md)  
     * [查看应用状态](function/check_app.md)  
@@ -26,7 +26,12 @@
     * [新建项目](function/create_img.md)
     * [镜像详情](function/update_img.md)
     * [镜像部署](function/deploy_img.md) 
-  * [日志管理](function/log.md)  
+  * [日志管理](function/log.md)
+  * [集群管理](function/cluster.md)  
+    * [创建/删除集群](function/create_delete_cluster.md)  
+    * [添加/删除主机](function/create_delete_host.md)  
+    * [集群/主机监控](function/monitor_cluster.md)  
+    * [集群升级](function/agent_upgrade.md)  
 * [快速实践](practice/README.md)  
   * [搭建 Wordpress 个人博客](practice/wordpress.md)  
   * [用 Vagrant 虚拟主机搭建数人云集群](practice/vagrant.md)  
