@@ -17,7 +17,7 @@
   * [镜像构建](build_img.md)
     * [新建项目](create_img.md)
     * [镜像详情](update_img.md)
-    * [镜像部署](fdeploy_img.md) 
+    * [镜像部署](deploy_img.md) 
   * [日志管理](log.md)
   * [集群管理](cluster.md)  
     * [创建/删除集群](create_delete_cluster.md)  
