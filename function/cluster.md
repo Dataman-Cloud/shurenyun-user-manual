@@ -7,3 +7,4 @@
   * [创建/删除集群](create_delete_cluster.md)
   * [添加/删除主机](create_delete_host.md)
   * [集群/主机监控](monitor_cluster.md)
+  * [集群升级](agent_upgrade.md)  
