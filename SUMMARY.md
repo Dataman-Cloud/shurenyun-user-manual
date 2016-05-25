@@ -13,7 +13,7 @@
   * [用户中心](function/user_center.md)
       * [修改密码](function/password.md)
       * [用户组管理](function/user_group_manage.md)
-      * [资源计量](source_count.md)
+      * [资源计量](function/source_count.md)
   * [应用管理](function/app.md)  
     * [创建/删除应用](function/create_delete_app.md)  
     * [查看应用状态](function/check_app.md)  
