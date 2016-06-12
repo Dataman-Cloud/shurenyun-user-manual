@@ -18,7 +18,7 @@
     * [创建/删除应用](function/create_delete_app.md)  
     * [查看应用状态](function/check_app.md)  
     * [启动/停止应用](function/start_stop_app.md)   
-    * [应用弹性伸缩](function/elastic_app.md)
+    * [扩展/灰度发布](function/elastic_app.md)
   * [服务策略](function/policy.md) 
     * [应用告警](function/app_policy.md)
     * [日志告警](function/logs_policy.md)
