@@ -36,9 +36,17 @@
   
   *  yaml文件必须以.sryci.yaml命名：示例：
   
-    	    clone:
- 			  skip_verify: true
-			build:
- 			  image: alpine:latest   ＃该镜像为构建镜像的基础镜像
- 			  commands:
-   			    - echo 'done'```
+    	 
+   			build:
+  			  image: index.shurenyun.com/zhguo/golang:1.5.1
+              commands:
+                - echo 'done done'
+                - go build -o hello
+                
+  * `image`对应的镜像为代码编译的基础环境，如果仓库的代码需要编译，该镜像需要安装编译代码的相关依赖，数人云的持续集成根据该yaml文件，拉取镜像。
+  * `commands` 为镜像启动执行的命令，可以为多行，示例中的`go build -o hello`是将项目内的go语言代码编译成可执行文件，文件名`hello`。该镜像执行完编译后，会将编译后的程序包放在当前目录，以供构建程序镜像时使用。该`commands`的编译命令需要根据编译环境设置。
+  *  如果项目中的文件已编译，如war包等，`commands`可以不设置编译命令。
+  * 目前数人云对.sryci.yaml文件做了限制，仅`build`下的值生效，其余值会过滤。
+  		 
+  	
+  
