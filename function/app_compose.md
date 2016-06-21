@@ -79,13 +79,6 @@ Docker Link 会修改您容器内的/etc/hosts文件，就像这样：
       - "com.example.department=Finance"
       - "com.example.label-with-empty-value"
 
-* net
-
-网络模式. 和命令行参数 --net 相同
-
-    net: "bridge"
-    net: "host"
-
 
 ####数人云 Compose
 数人云 Compose可以设置应用所占的cpu、内存及实例数，语法与docker Compose类似，可以从本地文件读取。
